@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+    .card-header{
+      background-color: burlywood;
+      color: aliceblue;
+    }
+    .card-body{
+      border: solid 5px black;
+      margin: 0 20px 0 20px;
+      padding: 50px;
+    }
+  </style>
+
+</head>
+<body>
+  
+  <div class="data">
+    <center>
+      <img src="https://c.tenor.com/tEBoZu1ISJ8AAAAC/spinning-loading.gif">
+    </center>
+  </div>
+
+
+  <script>
+    $(function () {
+
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const id = urlParams.get('id');
+   console.log(id);
+    var dataJson = [];
+      fetch('https://jsonplaceholder.typicode.com/posts?id='+id)
+      .then((response) => response.json())
+      .then((json) => {
+        dataJson = json;
+        try{
+          list_books(dataJson);
+        }catch(er){
+          console.log(er);
+        }
+        
+      });
+    
+    
+    function list_books (book){
+   
+     
+        var temp = '<div class="card">'+
+                  ' <div class="card-header">Detail</div>'+
+            '<div class="card-body">'+
+              ' <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqvlUrtUxV4jS6bqve90lVWOZWISzDfRGS8Q&usqp=CAU" class="card-img-top" style="width: 250px;">'+
+              ' <h4><span>ID:</span>'+book[0].id+'</h4>'+
+              '  <h4><span>Title:</span>'+book[0].title+'</h4>'+
+              '  <h4 class="card-text"><span>Body:</span>'+book[0].body+'</h4>'+
+              '  <a href="/" class="btn btn-danger">Return</a> '+
+              ' </div> </div> ';
+      
+        $(".data").html("");
+        $(".data").append(temp);
+    }
+    
+    
+    
+    
+    })
+    </script>
+</body>
+</html>
