@@ -29,7 +29,7 @@ const checkRegister = (req,res,next)=>{
   }
 }
 const checkHomepage= (req,res,next)=>{
-  if(!req.user){
+  if(req.user){
     return next();
   }else{
     return res.status(401).send("You cannot go to home page. PLease log in.");
@@ -39,11 +39,11 @@ const checkHomepage= (req,res,next)=>{
 
 router.post('/login',checkAuth,checkLogin,login);
 router.post('/register',checkAuth,checkRegister,createUser);
-router.get('/logout',checkAuth,checkLogout, (req, res, next) => {
+router.get('/logout',checkAuth,checkLogout, (req, res) => {
   store.clear();
   res.status(200).json({msg:'logout success'})
 });
-router.get('/',checkAuth,checkHomepage, (req, res, next) => {
+router.get('/',checkAuth,checkHomepage, (req, res) => {
   res.status(200).json({msg:'success',comment:'Hello home page.'})
 });
 
