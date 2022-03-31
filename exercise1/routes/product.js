@@ -5,11 +5,13 @@ const {
   create,
   getPro,
   deleted,
-  update
+  update,
+  getproductbySub
 } = require("../controller/product");
 
 
 router.get("/",getPro);
+router.get("/:id",getproductbySub);
 router.post("/create",create);
 router.post("/delete/:id",deleted);
 router.post("/edit/:id",update);

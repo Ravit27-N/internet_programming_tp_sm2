@@ -1,6 +1,7 @@
 const Category = require('../model/category');
 const SubCategory = require('../model/subcategory');
 const Product = require('../model/product');
+const subcategory = require('../model/subcategory');
 
 const create = async(req,res)=>{
   const {cat_name} = req.body;
@@ -55,9 +56,15 @@ const update =  async  (req,res)=>{
 const getCat = async (req,res)=>{
   try {
     const getting = await Category.find().populate("subcategories");
-    res.json({ success: true, data: getting });
+    console.log(getting);
+    if(getting){
+      res.json({ msg: 'success', datas: getting });
+    }else{
+      res.json({ msg: 'error', error: error });
+    }
+    
   } catch (error) {
-    res.json({ success: false, error: error });
+    res.json({ msg: 'error', error: error });
   }
 }
 

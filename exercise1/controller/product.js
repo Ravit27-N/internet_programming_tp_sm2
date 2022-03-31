@@ -4,9 +4,7 @@ const Product = require('../model/product');
 
 const create= async(req,res)=>{
    
-  const {name,description,price,SubCategory,countInStock} = req.body;
-
-
+  const {name,description,price,SubCategory,countInStock,image} = req.body;
 
   const checkSub = await  subCategory.findOne({ name: SubCategory});
 
@@ -16,8 +14,9 @@ const create= async(req,res)=>{
       name: name,
       description:  description,
       price : price,
-      SubCategory:checkSub._id,
-      countInStock: countInStock
+      subcategory:checkSub._id,
+      countInStock: countInStock,
+      image:image
     })
     try {
       const newPro = await product.save();
@@ -84,13 +83,22 @@ const update =  async  (req,res)=>{
 
 const getPro= async (req,res)=>{
   try {
-    const getting = await Category.find().populate("subcategories");
-    res.json({ success: true, data: getting });
+    const getting = await Category.find();
+    res.json({ success: true, datas: getting });
   } catch (error) {
     res.json({ success: false, error: error });
   }
 }
 
+const getproductbySub= async (req,res)=>{
+  const { id } = req.params;
+  try {
+    const getting = await Product.find({subcategory:id});
+    res.json({msg:'success', datas: getting });
+  } catch (error) {
+    res.json({ msg:'error', error: error });
+  }
+}
 
 
 module.exports= {
@@ -98,4 +106,5 @@ module.exports= {
   update,
   deleted,
   getPro,
+  getproductbySub
 }

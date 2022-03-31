@@ -15,10 +15,14 @@ const create = async(req,res)=>{
   }else{
     const subcategory = new SubCategory({
       name:sub_name,
-      Category: checkCat._id 
+      Category: checkCat._id
     })
     try {
       const newSub = await subcategory.save();
+      
+      checkCat.subcategories.push(subcategory);
+      await checkCat.save();
+
       if(newSub){
         res.status(201).json({msg:'success'});
       }
@@ -79,8 +83,8 @@ const update =  async  (req,res)=>{
 
 const getSub = async (req,res)=>{
   try {
-    //.populate("products")
-    const getting = await SubCategory.find();
+    //
+    const getting = await SubCategory.find().populate("products");
     res.json({ success: true, data: getting });
   } catch (error) {
     res.json({ success: false, error: error });
