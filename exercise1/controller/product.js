@@ -68,7 +68,6 @@ const update =  async  (req,res)=>{
       edit_Pro.countInStock =countInStock;
 
 
-
       await edit_Pro.save();
       res.json({ msg:'success', command: "Edit success"  });
 

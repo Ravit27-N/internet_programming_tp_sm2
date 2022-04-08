@@ -1,103 +1,267 @@
 <template>
-  
- <div class="container">
+  <div class="container">
 
-<div class="sidenav" >
-  <div class="hreader_sidebar text-center">SHOP</div>
-  <div  v-for="c in category" :key="c.name">
-    <a href="#about" >{{c.name}}</a>
-        <div class="subnav" v-for="s in c.subcategories" :key="s.name">
-          <a href="#services" @click="getProduct(s._id)" >{{s.name}}</a>
-        </div>
-  </div>
-</div>
-
- 
-  <div class="category">
-
-
-      <div class="product">
-
-          <div  v-if="!product" class="card" style="width: 16rem;"  >
-            <img src="https://assets.swappie.com/iPhone-6-Plus-space-gray-back.png" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title">DEFAULT PRODCUT</h5>
-              <p class="card-text">Apple iPhone 6 Plus ; CPU, Dual-core 1.4 GHz Typhoon (ARM v8-based) ; GPU, PowerVR GX6450 (quad-core graphics) ; Memory, Card slot ; Internal, 16GB 1GB RAM</p>
-              <p style="color:orange">150 $</p>
-              <a href="#" class="btn btn-primary">BUY</a>
-            </div>
-          </div>
-
-  
-          <div class="card" style="width: 16rem;" v-for="p in product" :key="p.name">
-            <img src="https://s3.amazonaws.com/mentoring.redesign/s3fs-public/900product.jpg" class="card-img-top">
-            <div class="card-body">
-              <h5 class="card-title"><b>{{p.name}}</b></h5>
-              <p class="card-text"><span>Description: </span>{{p.description}}</p>
-              <p style="color:orange">{{p.price}} $</p>
-              <a href="#" class="btn btn-primary">BUY</a>
-            </div>
-          </div>
-
-
-
+    <div class="sidenav" >
+      <div class="hreader_sidebar text-center">SHOP</div>
+      <div >
+          <a href="#about" @click="category_click"> Category</a>
+          <a href="#new"   @click="subcategory_click">Subcategory</a>
+          <a href="#asd"   @click="product_click" >Product</a>
       </div>
-  
-  </div>
+     
+    </div>
+    
+     
+    <div class="category">
+        <div class="title">
+          <h1>WELCOME TO ADMIN DASH BOARD</h1>
+        </div>
+      
+        <div class="data" v-show="display_category">
 
-</div> 
+          <div class="button_add">
+            <button type="button" class="btn btn-primary" @click="create_cat">CREATE CATEGORY</button>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category Title</th>
+                <th scope="col"> </th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Edit Delete</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Edit Delete</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <div class="data" v-show="display_subcategory">
+          <div class="button_add">
+            <button type="button" class="btn btn-primary" @click="create_sub">CREATE SUBCATEGORY</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Category</th>
+                <th scope="col">Subcategory</th>
+                <th scope="col"> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Edit Delete</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>Edit Delete</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <div class="data" v-show="display_product">
+          <div class="button_add">
+            <button type="button" class="btn btn-primary" @click="create_pro">CREATE PRODUCT</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subcategory</th>
+                <th scope="col">Product Name</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Edit Delete</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>Edit Delete</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+
+    </div> 
+
+
+
+
+        <div class="popup " v-show="popup_category==true">
+          
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Name</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Phone, Computer ....">
+          </div>
+          <div style="width:100%" class="text-center  group_button">
+              <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_cat">SUBMIT</button>
+               <button type="button" class="btn btn-outline-danger text-center" style="color: black;border: solid white;" @click="cancel_cat">CANCEL</button>
+          </div>
+          
+        </div>
+
+        <div class="popup" v-show="popup_subcategory==true">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Subcategory Title</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone,Samsung....">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Category</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Phone, Computer ....">
+          </div>
+          <div style="width:100%" class="text-center group_button">
+              <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_sub">SUBMIT</button>
+               <button type="button" class="btn btn-outline-danger text-center" style="color: black;border: solid white;" @click="cancel_sub">CANCEL</button>
+          </div>
+         
+        </div>
+
+        <div class="popup" v-show="popup_product==true">
+          
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Product Name</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone11, Iphone12 ....">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >SubCategory Name</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone, Samsung ....">
+          </div>
+          <div style="width:100%" class="text-center  group_button">
+            <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_pro">SUBMIT</button>
+             <button type="button" class="btn btn-outline-danger text-center" style="color: black;border: solid white;" @click="cancel_pro">CANCEL</button>
+          </div>
+        </div> 
+
+
+
+
+
+
+  </div> 
+  
 
 </template>
 
 
 <script>
 
-import axios from 'axios';
+
 
 export default {
 
   data(){
     return{
-      category:[],
-      product:null,
-     
+     display_category:true,
+     display_subcategory:false,
+     display_product:false,
+     popup_category:false,
+     popup_subcategory:false,
+     popup_product:false,
     }
   },
   methods:{
-        getProduct(SubID){
-              axios.get(`http://localhost:3001/api/product/${SubID}`)
-              .then(response => (
-                this.info = response
-              ))
-              .then(()=>{
-                if(this.info){
-                  console.log(this.info.data.msg);
-                  if(this.info.data.msg=='success'){
-                    this.product = this.info.data.datas;
-                  }else{
-                    alert("Log out false");
-                  }
-                }
-              })
-        }
+    category_click(){
+       
+      //show 
+        this.display_category=true;
+      
+      //close data table 
+        this.display_subcategory=false;
+        this.display_product=false;
+      //Close popup from another
+        this.popup_subcategory=false;
+         this.popup_product=false;
+       
+        
+        
+    },
+    subcategory_click(){
+         
+        this.display_subcategory=true;
+      //close data table 
+        this.display_category=false;
+        this.display_product=false;
+      //Close popup from another
+        this.popup_category=false;
+         this.popup_product=false;
+
+       
+    },
+    product_click(){
+         
+        this.display_product=true;
+
+        this.display_category=false;
+        this.display_subcategory=false;
+
+        //Close popup from another
+        this.popup_category=false;
+         this.popup_subcategory=false;
+        
+    },
+    create_cat(){
+        this.popup_category=true;
+    },
+    submit_cat(){
+        this.popup_category=false;
+    },
+    cancel_cat(){
+      this.popup_category=false;
+    },
+
+    create_sub(){
+        this.popup_subcategory=true;
+    },
+    submit_sub(){
+        this.popup_subcategory=false;
+    },
+    cancel_sub(){
+      this.popup_subcategory=false;
+    },
+    
+    create_pro(){
+        this.popup_product=true;
+    },
+    submit_pro(){
+        this.popup_product=false;
+    },
+    cancel_pro(){
+      this.popup_product=false;
+    },
       
   },
   mounted () {
     
-        axios.get(`http://localhost:3001/api/category`)
-              .then(response => (
-                this.info = response
-              ))
-              .then(()=>{
-                if(this.info){
-                  console.log(this.info.data.msg);
-                  if(this.info.data.msg=='success'){
-                    this.category = this.info.data.datas;
-                  }else{
-                    alert("Log out false");
-                  }
-                }
-              })
+       
 
   }
 }
@@ -107,8 +271,7 @@ export default {
 
 
 <style scoped>
-
-    .container{
+     .container{
       width: 100vw;
       margin-top: 1vh;
       padding: 1vh;
@@ -127,7 +290,7 @@ export default {
    .sidenav {
     text-align: left;
     height: 100%;
-    width: 160px;
+    width: 180px;
     /* background-color: ; */
     overflow-x: hidden;
     padding-top: 10px;
@@ -139,11 +302,12 @@ export default {
     .sidenav a {
       padding: 6px 8px 6px 16px;
       text-decoration: none;
-      font-size: 20px;
+      font-size: 18px;
       color: black;
       display: block;
       font-weight: bold;
       color:coral;
+      margin-top: 10px ;
     }
 
 
@@ -160,7 +324,7 @@ export default {
 
     .subnav {
       height: 100%;
-      width: 120px;
+      width: 140px;
       /* background-color: ; */
       text-align: left;
       overflow-x: hidden;
@@ -189,10 +353,6 @@ export default {
       border-radius:10px; 
     }
 
- 
-
-
-
     .category{
       width: 80vw;
       padding: 2vw;
@@ -200,23 +360,42 @@ export default {
       border-radius: 5px;
       border: solid 1px;
     }
-    .subcategory{
-      width: 100%;
-      padding-left: 10px;
-      font-weight: bold ;
-      font-size: 2em ;
-      color: chartreuse;
-      background-color:cadetblue ;
-    }
-    .product{
-      width: 100%;
-      /* border: 5px solid; */
+
+    .category .title{
       display: flex;
-      flex-wrap: wrap;
+      margin-bottom: 2vh;
     }
-    .product >div {
-      margin: 8px;
-      border: solid 2px;
+    .category h1{
+      background-color: coral;
+      width: 40vw;
+      font: 1.8em sans-serif;
+      text-align: center;
+      color: white;
+      border-radius: 15px 0px 15px 0px;
+  
     }
+    .category .button_add{
+      width: 15vw;
+      margin-bottom: 15px;
+    }
+
+    .popup{
+     
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      border: solid 2px white;
+      border-radius: 20px;
+      background-color:  coral;
+      width: 50vw;
+      padding: 40px;
+      text-align: left;
+      
+    }
+
+    .popup  .group_button{
+      margin-top: 50px ;
+    }
+
 
 </style>
