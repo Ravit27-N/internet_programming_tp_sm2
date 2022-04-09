@@ -23,7 +23,6 @@ const create= async(req,res)=>{
       if(newPro){
         res.status(201).json({msg:'success'});
       }
-
     } catch (err) {
       res.status(500).json({msg:'error', message: err.message });
     }
@@ -82,7 +81,7 @@ const update =  async  (req,res)=>{
 
 const getPro= async (req,res)=>{
   try {
-    const getting = await Category.find();
+    const getting = await Product.find();
     res.json({ success: true, datas: getting });
   } catch (error) {
     res.json({ success: false, error: error });
