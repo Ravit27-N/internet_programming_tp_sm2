@@ -84,10 +84,10 @@ const update =  async  (req,res)=>{
 const getSub = async (req,res)=>{
   try {
     //
-    const getting = await SubCategory.find().populate("products");
-    res.json({ success: true, data: getting });
+    const getting = await SubCategory.find();
+    res.json({ msg: 'success', datas: getting });
   } catch (error) {
-    res.json({ success: false, error: error });
+    res.json({ msg: 'error', error: error });
   }
 }
 

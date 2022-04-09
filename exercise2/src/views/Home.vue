@@ -33,16 +33,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Edit Delete</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Edit Delete</td>
-              </tr>
+              
+                <tr v-for="c in category" :key="c.name">
+                  <th scope="row">{{c._id}}</th>
+                  <td>{{c.name}}</td>
+                  <td>Edit Delete</td>
+                </tr>
+            
+  
             </tbody>
           </table>
         </div>
@@ -56,24 +54,17 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Category</th>
                 <th scope="col">Subcategory</th>
                 <th scope="col"> </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+              <tr v-for="s in subcategory" :key="s.name">
+                <th scope="row">{{s._id}}</th>
+                <td>{{s.name}}</td>
                 <td>Edit Delete</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>Edit Delete</td>
-              </tr>
+             
             </tbody>
           </table>
         </div>
@@ -88,23 +79,23 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Subcategory</th>
-                <th scope="col">Product Name</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Normal Price</th>
+                <th scope="col">InstocK</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
+              <tr v-for="p in product" :key="p.name">
+                <th scope="row">{{p._id}}</th>
+                <td>{{p.name}}</td>
+                <td>{{p.description}}</td>
+                <td>{{p.price}}</td>
+                <td>{{p.countInStock}}</td>
                 <td>Edit Delete</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>Edit Delete</td>
-              </tr>
+             
             </tbody>
           </table>
         </div>
@@ -117,10 +108,15 @@
 
 
         <div class="popup " v-show="popup_category==true">
+
+          
+          <div class="title text-center" style="width:100%; margin-bottom: 25px; color:white;">
+            <h3>Create Category</h3>
+          </div>
           
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Name</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Phone, Computer ....">
+            <input  v-model="category_name"  type="email" class="form-control" id="exampleFormControlInput1" placeholder="Phone, Computer ....">
           </div>
           <div style="width:100%" class="text-center  group_button">
               <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_cat">SUBMIT</button>
@@ -130,13 +126,24 @@
         </div>
 
         <div class="popup" v-show="popup_subcategory==true">
+          
+          
+          <div class="title text-center" style="width:100%; margin-bottom: 25px; color:white;">
+            <h3>Create Subcategory</h3>
+          </div>
+
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Subcategory Title</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone,Samsung....">
+            <input v-model="subcategory_name" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone,Samsung....">
           </div>
+          
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Category</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Phone, Computer ....">
+           <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Category</label>
+            <select v-model="subcategory_category" class="form-select" aria-label="Default select example" >
+              <option selected>Select Category</option>
+              <option   v-for="c in category" :key="c.name" >{{c.name}}</option>
+
+            </select>
           </div>
           <div style="width:100%" class="text-center group_button">
               <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_sub">SUBMIT</button>
@@ -145,16 +152,40 @@
          
         </div>
 
+
+
         <div class="popup" v-show="popup_product==true">
           
+
+          <div class="title text-center" style="width:100%; margin-bottom: 25px; color:white;">
+            <h3>Create Product</h3>
+          </div>
+
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Product Name</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone11, Iphone12 ....">
+            <input v-model="product_name"  type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone11, Iphone12 ....">
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >SubCategory Name</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Iphone, Samsung ....">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Description</label>
+            <input v-model="product_description" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Memory 256g color red.......">
           </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Price</label>
+            <input v-model="product_price" type="email" class="form-control" id="exampleFormControlInput1" placeholder="560, 950, ...">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Count In Stock</label>
+            <input v-model="product_countinstock" type="email" class="form-control" id="exampleFormControlInput1" placeholder="11, 15, ....">
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label" style="color: white;" >Subcategory</label>
+            <select v-model="product_subcategory" class="form-select" aria-label="Default select example">
+              <option selected>Select Subcategory</option>
+              <option v-for="s in subcategory" :key="s.name" >{{s.name}}</option>
+            </select>
+          </div>
+ 
+          
           <div style="width:100%" class="text-center  group_button">
             <button type="button" class="btn btn-outline-success text-center" style="color: white;border: solid white;" @click="submit_pro">SUBMIT</button>
              <button type="button" class="btn btn-outline-danger text-center" style="color: black;border: solid white;" @click="cancel_pro">CANCEL</button>
@@ -174,35 +205,53 @@
 
 <script>
 
-
+import axios from 'axios';
 
 export default {
 
   data(){
     return{
+      //status for show
      display_category:true,
      display_subcategory:false,
      display_product:false,
      popup_category:false,
      popup_subcategory:false,
      popup_product:false,
+     //data
+     category:null,
+     subcategory:null,
+     product:null,
+     price:null,
+     //Data input
+     subcategory_name:null,
+     subcategory_category:null,
+     
+     category_name:null,
+    
+    //product 
+     product_name:null,
+     product_description:null,
+     product_price:null,
+     product_subcategory:null,
+     product_countinstock:null,
+     product_image:'',
+
+
     }
   },
   methods:{
     category_click(){
-       
+
       //show 
         this.display_category=true;
-      
       //close data table 
         this.display_subcategory=false;
         this.display_product=false;
       //Close popup from another
         this.popup_subcategory=false;
-         this.popup_product=false;
+        this.popup_product=false;
        
-        
-        
     },
     subcategory_click(){
          
@@ -229,19 +278,60 @@ export default {
         
     },
     create_cat(){
+      
         this.popup_category=true;
+        
     },
     submit_cat(){
+ 
+      const article = {cat_name:this.category_name}
+      axios.post(`http://localhost:3001/api/category/create`,article)
+      .then(response => (
+        this.info = response
+      ))
+      .then(()=>{
+        if(this.info){
+          if(this.info.data.msg=='success'){
+            alert("Create Success");
+
+          }else{
+            alert("Create False");
+          }
+        }
+      })
+
+
         this.popup_category=false;
     },
     cancel_cat(){
       this.popup_category=false;
     },
-
     create_sub(){
         this.popup_subcategory=true;
     },
     submit_sub(){
+
+      if(this.subcategory_category==null){
+        alert("Cannot Create Because You donot select Category Name");
+      }else{
+         const article = {cat_name:this.subcategory_category,sub_name:this.subcategory_name};
+          axios.post(`http://localhost:3001/api/subcategory/create`,article)
+          .then(response => (
+            this.info = response
+          ))
+          .then(()=>{
+            if(this.info){
+              if(this.info.data.msg=='success'){
+                alert("Create Success");
+              }else{
+                alert("Create False");
+              }
+            }
+          })
+      }
+     
+
+
         this.popup_subcategory=false;
     },
     cancel_sub(){
@@ -252,6 +342,37 @@ export default {
         this.popup_product=true;
     },
     submit_pro(){
+
+      if(this.product_subcategory==null){
+        alert("Create Product False");
+      }else{
+        
+          const article = {
+              name:this.product_name,
+              description:this.product_description,
+              price:this.product_price,
+              SubCategory:this.product_subcategory,
+              countInStock:this.product_countinstock,
+              image:this.product_image
+          }
+
+            axios.post(`http://localhost:3001/api/product/create`,article)
+                  .then(response => (
+                    this.info = response
+                  ))
+                  .then(()=>{
+                    if(this.info){
+                      if(this.info.data.msg=='success'){
+                        alert("Create Success");
+
+                      }else{
+                        alert("Create False");
+                      }
+                    }
+                  })
+      }
+      
+
         this.popup_product=false;
     },
     cancel_pro(){
@@ -260,10 +381,63 @@ export default {
       
   },
   mounted () {
-    
-       
+   
+    axios.get(`http://localhost:3001/api/category`)
+        .then(response => (
+          this.info = response
+        ))
+        .then(()=>{
+          if(this.info){
+            if(this.info.data.msg=='success'){
+              this.category = this.info.data.datas;
+            }else{
+              alert("Error1");
+            }
+          }
+    })
+    axios.get(`http://localhost:3001/api/subcategory`)
+        .then(response => (
+          this.info = response
+        ))
+        .then(()=>{
+          if(this.info){
+            
+            if(this.info.data.msg=='success'){
+              this.subcategory = this.info.data.datas;
+            }else{
+              alert("Error2");
+            }
+          }
+        })
+   
+     axios.get(`http://localhost:3001/api/product`)
+        .then(response => (
+          this.info = response
+        ))
+        .then(()=>{
+          if(this.info){
+          
+            if(this.info.data.msg=='success'){
+              this.product = this.info.data.datas;
+            }else{
+              alert("Error3");
+            }
+          }
+        })
+      
+  },
+  watch: {
+    category: function () {
+       console.log('Change Category');
+    },
+    subcategory: function () {
+       console.log('Change Subcategory');
+    },
+    product: function () {
+       console.log('Change Product');
+    },
+  },
 
-  }
 }
 </script>
 
@@ -272,6 +446,7 @@ export default {
 
 <style scoped>
      .container{
+       
       width: 100vw;
       margin-top: 1vh;
       padding: 1vh;

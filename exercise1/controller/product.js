@@ -82,9 +82,9 @@ const update =  async  (req,res)=>{
 const getPro= async (req,res)=>{
   try {
     const getting = await Product.find();
-    res.json({ success: true, datas: getting });
+    res.json({ msg: 'success', datas: getting });
   } catch (error) {
-    res.json({ success: false, error: error });
+    res.json({ msg: 'error', error: error });
   }
 }
 
